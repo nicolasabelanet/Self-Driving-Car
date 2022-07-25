@@ -1,4 +1,5 @@
 import pygame
+from typing import List
 
 class Controls:
 
@@ -7,27 +8,31 @@ class Controls:
     right: bool = False
     down: bool = False
 
-    @staticmethod
-    def update():
+    @classmethod
+    def update(cls):
           
         keys = pygame.key.get_pressed()
                 
         if keys[pygame.K_UP]:
-            Controls.up = True
+            cls.up = True
         else:
-            Controls.up = False
+            cls.up = False
 
         if keys[pygame.K_LEFT]:
-            Controls.left = True
+            cls.left = True
         else:
-            Controls.left = False
+            cls.left = False
 
         if keys[pygame.K_RIGHT]:
-            Controls.right = True
+            cls.right = True
         else:
-            Controls.right = False
+            cls.right = False
 
         if keys[pygame.K_DOWN]:
-            Controls.down = True
+            cls.down = True
         else:
-            Controls.down = False
+            cls.down = False
+
+    @classmethod
+    def get_action(cls) -> List[int]:
+        return [int(cls.up), int(cls.down), int(cls.left), int(cls.right)] 

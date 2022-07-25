@@ -1,26 +1,55 @@
-from string import hexdigits
 import pygame
-from pygame import Vector2
+from pygame.math import Vector2
+from gamedata import GameData
+from camera import Camera
+from controls import Controls
+from player import Player
+from line import Line
+from world import World
 
-# Game Settings
-class Game:
 
-    width: int
-    height: int
+def main():
 
-    offset: Vector2
+    pygame.init()
+    GameData.init()
+    Camera.init()
+    World.init()
 
-    font: pygame.font.Font
-    display: pygame.Surface
-    clock: pygame.time.Clock
+    position = Vector2(0, 0)
+    car = Player(position, 40, 80)
+   
+    Camera.follow(car)
 
-    @staticmethod
-    def init():
-        Game.width = 1440
-        Game.height = 1920
+    start = (-500, 1000)
+    end = (-500, -1000)
 
-        Game.offset = Vector2(Game.width / 2, Game.height / 2)
+    line = Line(start, end, 4)
 
-        Game.font = pygame.font.Font('arial.ttf', 50)
-        Game.display = pygame.display.set_mode((Game.width, Game.height))
-        Game.clock = pygame.time.Clock()
+    start = (500, 1000)
+    end = (500, -1000)
+
+    line2 = Line(start, end, 4)
+
+    World.add(line, line2, car)
+
+    while(True):
+        
+        Camera.update()
+        World.update()     
+        World.draw()
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+        GameData.clock.tick(60)
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+

@@ -1,5 +1,5 @@
 from turtle import width
-from gamemanager import Game
+from src.game import GameData
 
 class CarGame:
 

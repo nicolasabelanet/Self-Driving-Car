@@ -2,7 +2,7 @@ from pickle import FALSE
 from turtle import Vec2D
 import pygame
 from pygame import Vector2
-from game import Game
+from gamedata import GameData
 from camera import Camera
 
 class Line:
@@ -14,6 +14,9 @@ class Line:
         self.width = width
         self.dotted = dotted
 
+    def update(self):
+        pass
+
     def draw(self):
 
         start_camera_space_point = Vector2(self.start)
@@ -24,10 +27,10 @@ class Line:
         Camera.to_camera_space(end_camera_space_point)
 
         # Move points to screen space
-        start_camera_space_point.x = start_camera_space_point.x + Game.offset.x
-        start_camera_space_point.y = -start_camera_space_point.y + Game.offset.y  
+        start_camera_space_point.x = start_camera_space_point.x + GameData.offset.x
+        start_camera_space_point.y = -start_camera_space_point.y + GameData.offset.y  
         
-        end_camera_space_point.x = end_camera_space_point.x + Game.offset.x
-        end_camera_space_point.y = -end_camera_space_point.y + Game.offset.y  
+        end_camera_space_point.x = end_camera_space_point.x + GameData.offset.x
+        end_camera_space_point.y = -end_camera_space_point.y + GameData.offset.y  
 
-        pygame.draw.line(Game.display, (255, 255, 255), start_camera_space_point, end_camera_space_point, self.width)
+        pygame.draw.line(GameData.display, (255, 255, 255), start_camera_space_point, end_camera_space_point, self.width)

@@ -1,17 +1,19 @@
 from camera import Camera
 import pygame
 from pygame.math import Vector2
-from game import Game
+from gamedata import GameData
 import math 
+from typing import Tuple
 
 class Rectangle():
 
-    def __init__(self, position: Vector2, angle: float, width: float, height: float):
+    def __init__(self, position: Vector2, angle: float, width: float, height: float, color: Tuple[int]):
         
         self.__position = position
         self.__angle = angle
         self.width = width
         self.height = height
+        self.color = color
 
         self.radius = math.hypot(self.width, self.height)
         self.alpha = math.atan2(self.width, self.height)
@@ -58,16 +60,16 @@ class Rectangle():
 
         screen_space_points = tuple(Vector2(point) for point in self.points)
 
-        for i, point in enumerate(screen_space_points):
+        for point in screen_space_points:
 
             # Move point to camera space
             Camera.to_camera_space(point)
 
             # Move point to screen space
-            point.x = point.x + Game.offset.x
-            point.y = -point.y + Game.offset.y  
+            point.x = point.x + GameData.offset.x
+            point.y = -point.y + GameData.offset.y  
 
             #print (point)
     
-        pygame.draw.polygon(Game.display, (255, 0, 0), screen_space_points)
+        pygame.draw.polygon(GameData.display, self.color, screen_space_points)
         

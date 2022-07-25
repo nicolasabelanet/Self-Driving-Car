@@ -3,8 +3,16 @@ import pygame
 from pygame.math import Vector2
 from controls import Controls
 import math
-from game import Game
+from enum import Enum
+from gamedata import GameData
 from rectangle import Rectangle
+from typing import List
+
+def Direction(Enum):
+    FORWARD = 1
+    REVERSE = 2
+    LEFT = 3
+    RIGHT = 4
 
 class Car (Rectangle):
 
@@ -18,14 +26,16 @@ class Car (Rectangle):
         self.friction: float = 0.05
         self.destroyed: bool = False
 
-        super().__init__(position, 50, width, height)
+        super().__init__(position, 0, width, height, (255, 255, 255))
 
-    def move(self):
+    def update(self, action: List[int]):
 
-        if Controls.up:
+        forward, reverse, left, right = action
+
+        if forward:
             self.speed += self.acceleration
         
-        if Controls.down :
+        if reverse:
             self.speed -= self.acceleration
         
         if self.speed > self.max_speed:
@@ -50,11 +60,11 @@ class Car (Rectangle):
 
             flip = 1 if self.speed > 0 else -1
 
-            if Controls.left:
+            if left:
                 self.angle -= 0.03 * flip
             
 
-            if Controls.right:
+            if right:
                 self.angle += 0.03 * flip
 
 
@@ -63,9 +73,6 @@ class Car (Rectangle):
         new_position.y = math.cos(self.angle) * self.speed
 
         self.position += new_position
-
-        if self.position.y > (2 * Game.height):
-            self.position -= Vector2(0, 2 * Game.height)
 
     def draw(self):
         super().draw()
